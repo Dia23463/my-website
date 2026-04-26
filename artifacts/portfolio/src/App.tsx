@@ -165,8 +165,8 @@ function ProjectsSection() {
       image: "/healthcare.png"
     },
     {
-      title: "Carbon-Aware Compute",
-      desc: "Research at the Lab for Advanced System Software analyzing how energy mix and geography shape grid carbon intensity — and what that means for where and when cloud workloads should run.",
+      title: "This Site",
+      desc: "The thing you're scrolling through. A single-page React + Vite + TypeScript build with Tailwind v4, Framer Motion scroll reveals, a Canvas2D node-graph hero, particle-rendered title, and liquid-glass UI. Designed, written, and shipped solo.",
       href: "https://github.com/Dia23463"
     }
   ];
