@@ -8,7 +8,7 @@ import { AtmosphereCanvas } from "./components/canvas/AtmosphereCanvas";
 import { ParticleCanvas } from "./components/canvas/ParticleCanvas";
 import { ParticleTitle } from "./components/canvas/ParticleTitle";
 
-const MEDIUM_URL = "https://medium.com/@dia_010622";
+const MEDIUM_URL = "https://medium.com/@athena.parthenos10621";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -307,10 +307,12 @@ function WritingSection() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   const essays = [
-    { title: "Notes from the Commonwealth", date: "On Medium", excerpt: "What I'm learning about building generative AI inside a public-sector team that has to actually live with the consequences." },
-    { title: "On carbon-aware computing", date: "On Medium", excerpt: "Why where and when you run a workload is starting to matter as much as how fast it runs." },
-    { title: "Designing for the underserved", date: "On Medium", excerpt: "Lessons from Access Prep on bilingual UX, OCR pipelines, and trust." },
-    { title: "Econ majors who code", date: "On Medium", excerpt: "On the strange usefulness of reading too much macroeconomics while learning to ship software." }
+    {
+      title: "4 Lessons I Learnt Till 18",
+      href: "https://medium.com/@athena.parthenos10621/4-lessons-i-learnt-till-18-7218288597b1",
+      date: "Apr 2026 · 4 min read",
+      excerpt: "On being the main character of your own life, becoming someone your future self would be proud of, why self-discipline isn't optional, and learning that it's okay to feel lost sometimes."
+    }
   ];
 
   return (
@@ -334,23 +336,26 @@ function WritingSection() {
         </div>
 
         <div className="space-y-4 max-w-2xl mx-auto mb-12">
+          <motion.div custom={3} variants={fadeUp} className="text-center mb-2">
+            <span className="font-sans text-[0.7rem] uppercase tracking-[0.2em] text-white/35">Latest Essay</span>
+          </motion.div>
           {essays.map((essay, i) => (
             <motion.a
               key={i}
-              href={MEDIUM_URL}
+              href={essay.href}
               target="_blank"
               rel="noreferrer"
-              custom={3 + i}
+              custom={4 + i}
               variants={fadeUp}
-              className="block liquid-glass rounded-xl p-5 md:p-6 transition-all hover:bg-white/[0.08] hover:-translate-y-0.5 group"
+              className="block liquid-glass-strong rounded-2xl p-6 md:p-8 transition-all hover:bg-white/[0.08] hover:-translate-y-0.5 group"
             >
-              <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-2 gap-1">
-                <h3 className="font-instrument italic text-2xl text-white group-hover:text-white/90">{essay.title}</h3>
-                <span className="font-sans text-xs text-white/40 uppercase tracking-wider">{essay.date}</span>
+              <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-3 gap-1">
+                <h3 className="font-instrument italic text-2xl md:text-3xl text-white group-hover:text-white/90 leading-tight">{essay.title}</h3>
+                <span className="font-sans text-xs text-white/40 uppercase tracking-wider whitespace-nowrap">{essay.date}</span>
               </div>
-              <p className="font-sans font-light text-white/60 text-sm leading-relaxed">{essay.excerpt}</p>
-              <div className="mt-3 inline-flex items-center font-sans font-medium text-xs text-white/45 group-hover:text-white transition-colors">
-                Read on Medium <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
+              <p className="font-sans font-light text-white/65 text-base leading-relaxed">{essay.excerpt}</p>
+              <div className="mt-4 inline-flex items-center font-sans font-medium text-sm text-white/55 group-hover:text-white transition-colors">
+                Read on Medium <ArrowUpRight className="w-4 h-4 ml-1" />
               </div>
             </motion.a>
           ))}
