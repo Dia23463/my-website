@@ -16,8 +16,13 @@ export function Navbar() {
       className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-4xl z-50"
     >
       <div className="liquid-glass rounded-full h-14 flex items-center justify-between px-6">
-        <div className="font-instrument italic text-xl text-white/90">— . —</div>
-        
+        <button
+          onClick={() => scrollTo("hero")}
+          className="font-instrument italic text-xl text-white/90 hover:text-white transition-colors"
+        >
+          Dia Sutaria
+        </button>
+
         <div className="hidden md:flex items-center gap-8">
           {["About", "Projects", "Experience", "Writing", "Contact"].map((item) => (
             <button
@@ -30,7 +35,7 @@ export function Navbar() {
           ))}
         </div>
 
-        <button 
+        <button
           onClick={() => scrollTo("contact")}
           className="liquid-glass-strong rounded-full px-5 py-2 text-[0.875rem] font-sans text-white hover:bg-white/10 transition-colors"
         >

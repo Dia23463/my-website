@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { ArrowDown, BookOpen, ArrowUpRight, Mail, Github } from "lucide-react";
+import { ArrowDown, BookOpen, ArrowUpRight, Mail, Github, Linkedin } from "lucide-react";
 import { useRef } from "react";
 import { PageLoader } from "./components/PageLoader";
 import { Navbar } from "./components/Navbar";
@@ -62,7 +62,7 @@ function HeroSection() {
           transition={{ delay: 1.2, duration: 1 }}
           className="mt-6 text-white/72 font-sans font-light text-lg md:text-xl max-w-2xl mx-auto"
         >
-          Developer · Writer · Student — building strange and beautiful things on the internet.
+          CS + Economics at UMass Amherst · AI engineer, researcher, and quiet builder of things that try to make the world a little less broken.
         </motion.p>
         
         <motion.div 
@@ -123,15 +123,15 @@ function AboutSection() {
       >
         <motion.div custom={0} variants={fadeUp} className="section-badge">About Me</motion.div>
         <motion.h2 custom={1} variants={fadeUp} className="font-instrument italic text-[clamp(2.5rem,6vw,4rem)] leading-tight text-white mb-10">
-          Not just a developer. <br/> Not just a writer. <br/> Just a person figuring it out.
+          Not just a CS major. <br/> Not just an econ student. <br/> Just someone trying to build things that matter.
         </motion.h2>
         
         <motion.div custom={2} variants={fadeUp} className="font-sans font-light text-white/72 text-lg leading-relaxed space-y-6 text-left max-w-2xl mx-auto">
           <p>
-            I've always lived in the strange overlap between logic and emotion. During the day, I write code that structures data, maps systems, and makes things work. At night, I write words that try to map out everything else. 
+            I'm a sophomore at UMass Amherst studying Computer Science and Economics, fascinated by the strange overlap between systems, people, and the choices that connect them. I work on AI for the public sector, research carbon-aware computing, and build small things on the side that I wish existed.
           </p>
           <p>
-            There's a specific kind of comfort I find in building things at 2am. Whether it's a new UI component or a personal essay, the process is the same: staring at a blank screen and trying to organize chaos into something beautiful. This portfolio is a collection of that chaos.
+            The thread through all of it is the same: I like problems that don't have a clean answer. Designing models that have to live with messy human data. Translating dense financial signals into something a person can actually feel. Sketching tools at 2am because the idea won't leave me alone. This page is a small record of that — what I've shipped, what I've researched, and what I'm still figuring out.
           </p>
         </motion.div>
       </motion.div>
@@ -144,10 +144,26 @@ function ProjectsSection() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   const projects = [
-    { title: "Echoes", desc: "An ambient sound generator built with React and Web Audio API. Generates endless, non-repeating soundscapes for deep focus." },
-    { title: "Margin Notes", desc: "A tiny note-taking app that forces you to write in the margins of other texts. Built with Next.js and Tailwind." },
-    { title: "Verse Engine", desc: "A generative poetry tool that uses Markov chains to construct surreal verses from public domain texts." },
-    { title: "Night Mode", desc: "A personal essay engine that only unlocks its contents after 11 PM local time." }
+    {
+      title: "Access Prep",
+      desc: "AI-powered financial document assistant for underserved users — React + TypeScript front end, Flask + LangChain backend, Gemini chatbot, OCR verification, bilingual support. Selected for the Capital One 2026 Tech Summit (3rd place).",
+      href: "https://github.com/Dia23463"
+    },
+    {
+      title: "RecessionIQ",
+      desc: "Real-time macro dashboard in Next.js pulling Federal Reserve data across CPI, unemployment, and the yield curve. Built a weighted recession-risk model grounded in historical data, deployed on Vercel.",
+      href: "https://github.com/Dia23463"
+    },
+    {
+      title: "Healthcare Deserts",
+      desc: "Interactive geospatial ML app predicting underserved healthcare regions. Combined demographic, transport, and facility data with classification + GenAI summaries to surface high-impact clinic locations.",
+      href: "https://github.com/Dia23463"
+    },
+    {
+      title: "Carbon-Aware Compute",
+      desc: "Research at the Lab for Advanced System Software analyzing how energy mix and geography shape grid carbon intensity — and what that means for where and when cloud workloads should run.",
+      href: "https://github.com/Dia23463"
+    }
   ];
 
   return (
@@ -170,11 +186,14 @@ function ProjectsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto">
           {projects.map((p, i) => (
-            <motion.div 
-              key={i} 
-              custom={2 + i} 
+            <motion.a
+              key={i}
+              href={p.href}
+              target="_blank"
+              rel="noreferrer"
+              custom={2 + i}
               variants={fadeUp}
-              className="liquid-glass rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-white/30 group cursor-pointer flex flex-col justify-between min-h-[200px]"
+              className="liquid-glass rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-white/30 group cursor-pointer flex flex-col justify-between min-h-[220px]"
             >
               <div>
                 <h3 className="font-instrument italic text-3xl text-white mb-3">{p.title}</h3>
@@ -183,7 +202,7 @@ function ProjectsSection() {
               <div className="mt-6 flex items-center font-sans font-medium text-sm text-white/50 group-hover:text-white transition-colors">
                 View Project <ArrowUpRight className="w-4 h-4 ml-1" />
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
       </motion.div>
@@ -196,10 +215,42 @@ function ExperienceSection() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   const experiences = [
-    { role: "Frontend Engineer Intern", org: "Vercel", year: "2024", desc: "Built internal tools and optimized rendering performance for the marketing site." },
-    { role: "Editor-in-Chief", org: "The University Review", year: "2023 - 2024", desc: "Managed a team of 15 writers, redesigned the digital publication, and wrote weekly editorials." },
-    { role: "Independent Writer", org: "Substack", year: "2022 - Present", desc: "Writing about the intersection of technology, design, and emotional resonance to an audience of 2,000+." },
-    { role: "Hackathon Organizer", org: "HackTheNorth", year: "2022", desc: "Led the design and web team to build the landing page and registration portal." }
+    {
+      role: "AI Engineering Intern",
+      org: "Commonwealth of Massachusetts",
+      year: "Jan 2026 — Present",
+      desc: "Selected for a 16-week program building generative AI for public-sector use. Designing systems with UMass CICS faculty and state partners using human-centered design and responsible AI on AWS."
+    },
+    {
+      role: "Emerging Leaders Scholar (Engineering)",
+      org: "Goldman Sachs",
+      year: "Jan 2026 — Present",
+      desc: "Engineering Track scholar — technical training, mentorship, and an in-person presentation of an engineering solution at the Goldman Sachs Dallas office."
+    },
+    {
+      role: "Innovation Challenge Finalist",
+      org: "Accenture",
+      year: "Feb 2026 — Mar 2026",
+      desc: "Selected from over 1,500 applicants. Analyzed a partner organization's challenges and presented strategy recommendations to senior Accenture leadership for community-impact work."
+    },
+    {
+      role: "AI Studio Fellow",
+      org: "Snowflake",
+      year: "Aug 2025 — Dec 2025",
+      desc: "Built an interactive geospatial ML app predicting healthcare deserts — combined demographic, transport, and facility data with classification models and GenAI summaries to recommend clinic locations."
+    },
+    {
+      role: "Undergraduate Researcher",
+      org: "Lab for Advanced System Software",
+      year: "Mar 2025 — Present",
+      desc: "Studying how energy mix and geography shape grid carbon intensity, and how that informs carbon-aware placement of cloud workloads across regions."
+    },
+    {
+      role: "Student Ambassador",
+      org: "UMass IT",
+      year: "Sept 2025 — Present",
+      desc: "Evaluating IT tools and services and feeding accessibility, UX, and service-design feedback to cross-functional teams."
+    }
   ];
 
   return (
@@ -254,10 +305,10 @@ function WritingSection() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   const essays = [
-    { title: "On the comfort of late-night code", date: "Oct 12, 2024", excerpt: "Why the best ideas always seem to arrive when everyone else is asleep." },
-    { title: "Why I keep writing in margins", date: "Sep 04, 2024", excerpt: "A defense of messy notes, incomplete thoughts, and the space outside the main content." },
-    { title: "Notes on building things nobody asked for", date: "Jul 22, 2024", excerpt: "The pure joy of creating software with an audience of exactly one." },
-    { title: "The aesthetics of plain text", date: "May 15, 2024", excerpt: "Stripping away the UI to find the raw emotional weight of words on a screen." }
+    { title: "Notes from the Commonwealth", date: "Coming soon", excerpt: "What I'm learning about building generative AI inside a public-sector team that has to actually live with the consequences." },
+    { title: "On carbon-aware computing", date: "Coming soon", excerpt: "Why where and when you run a workload is starting to matter as much as how fast it runs." },
+    { title: "Designing for the underserved", date: "Coming soon", excerpt: "Lessons from Access Prep on bilingual UX, OCR pipelines, and trust." },
+    { title: "Econ majors who code", date: "Coming soon", excerpt: "On the strange usefulness of reading too much macroeconomics while learning to ship software." }
   ];
 
   return (
@@ -323,11 +374,14 @@ function ContactSection() {
         </motion.p>
         
         <motion.div custom={3} variants={fadeUp} className="flex flex-wrap justify-center gap-4">
-          <a href="mailto:hello@example.com" className="liquid-glass-strong rounded-full px-8 py-4 font-sans font-medium text-white flex items-center gap-3 hover:bg-white/10 transition-colors">
+          <a href="mailto:dia_010622@outlook.com" className="liquid-glass-strong rounded-full px-8 py-4 font-sans font-medium text-white flex items-center gap-3 hover:bg-white/10 transition-colors">
             <Mail className="w-5 h-5" /> Send Me a Message
           </a>
-          <a href="#" className="liquid-glass rounded-full px-8 py-4 font-sans font-medium text-white flex items-center gap-3 hover:bg-white/10 transition-colors">
+          <a href="https://github.com/Dia23463" target="_blank" rel="noreferrer" className="liquid-glass rounded-full px-8 py-4 font-sans font-medium text-white flex items-center gap-3 hover:bg-white/10 transition-colors">
             <Github className="w-5 h-5" /> View on GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/dia-sutaria/" target="_blank" rel="noreferrer" className="liquid-glass rounded-full px-8 py-4 font-sans font-medium text-white flex items-center gap-3 hover:bg-white/10 transition-colors">
+            <Linkedin className="w-5 h-5" /> LinkedIn
           </a>
         </motion.div>
       </motion.div>
@@ -342,11 +396,11 @@ function Footer() {
         <div className="h-px w-full bg-white/10 mb-8" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4">
-            <span className="font-instrument italic text-xl text-white/90">— . —</span>
-            <span className="font-sans text-xs text-white/35">Developer · Writer · Student</span>
+            <span className="font-instrument italic text-xl text-white/90">Dia Sutaria</span>
+            <span className="font-sans text-xs text-white/35">CS + Economics · UMass Amherst</span>
           </div>
           <div className="font-sans text-xs text-white/30 text-center md:text-right">
-            © 2025. Built with too much coffee and not enough sleep.
+            © 2026. Built with too much coffee and not enough sleep.
           </div>
         </div>
       </div>
