@@ -19,7 +19,7 @@ export function Navbar() {
         <button
           onClick={() => scrollTo("hero")}
           className="flex items-center gap-3 group"
-          aria-label="Dia Sutaria — back to top"
+          aria-label="Dia Sutaria, back to top"
         >
           <span className="liquid-glass-strong rounded-full w-10 h-10 flex items-center justify-center group-hover:bg-white/10 transition-colors overflow-hidden">
             <img

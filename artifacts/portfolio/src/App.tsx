@@ -125,15 +125,15 @@ function AboutSection() {
       >
         <motion.div custom={0} variants={fadeUp} className="section-badge">About Me</motion.div>
         <motion.h2 custom={1} variants={fadeUp} className="font-instrument italic text-[clamp(2.5rem,6vw,4rem)] leading-tight text-white mb-10">
-          Not just a CS major. <br/> Not just an econ student. <br/> Just someone trying to build things that matter.
+          Learning by doing. <br/> Exploring in all its shades.
         </motion.h2>
-        
+
         <motion.div custom={2} variants={fadeUp} className="font-sans font-light text-white/72 text-lg leading-relaxed space-y-6 text-left max-w-2xl mx-auto">
           <p>
-            I'm a sophomore at UMass Amherst studying Computer Science and Economics, fascinated by the strange overlap between systems, people, and the choices that connect them. I work on AI for the public sector, research carbon-aware computing, and build small things on the side that I wish existed.
+            As someone who is an avid reader, the world in and out of books has always been a curious place to be. From having an adrenaline rush thinking about the black hole and the mystery around the event horizon to figuring out how a quantum computer works, what wakes me up from bed is the possibility of coming across something new and exciting.
           </p>
           <p>
-            The thread through all of it is the same: I like problems that don't have a clean answer. Designing models that have to live with messy human data. Translating dense financial signals into something a person can actually feel. Sketching tools at 2am because the idea won't leave me alone. This page is a small record of that — what I've shipped, what I've researched, and what I'm still figuring out.
+            With a belief in learning by doing and exploring the world in all it's shades, I embrace things in all it's vibrancy and... that's what works out best!
           </p>
         </motion.div>
       </motion.div>
@@ -148,7 +148,7 @@ function ProjectsSection() {
   const projects: Array<{ title: string; desc: string; href: string; image?: string }> = [
     {
       title: "Access Prep",
-      desc: "AI-powered financial document assistant for underserved users — React + TypeScript front end, Flask + LangChain backend, Gemini chatbot, OCR verification, bilingual support. Selected for the Capital One 2026 Tech Summit (3rd place).",
+      desc: "AI-powered financial document assistant for underserved users. React + TypeScript front end, Flask + LangChain backend, Gemini chatbot, OCR verification, bilingual support. Selected for the Capital One 2026 Tech Summit (3rd place).",
       href: "https://github.com/Dia23463",
       image: "/access-prep.png"
     },
@@ -165,8 +165,8 @@ function ProjectsSection() {
       image: "/healthcare.png"
     },
     {
-      title: "This Site",
-      desc: "The thing you're scrolling through. A single-page React + Vite + TypeScript build with Tailwind v4, Framer Motion scroll reveals, a Canvas2D node-graph hero, particle-rendered title, and liquid-glass UI. Designed, written, and shipped solo.",
+      title: "Personal Portfolio",
+      desc: "The site you're scrolling through. A single-page React + Vite + TypeScript build with Tailwind v4, Framer Motion scroll reveals, a Canvas2D node-graph hero, particle-rendered title, and liquid-glass UI. Designed, written, and shipped solo.",
       href: "https://github.com/Dia23463"
     }
   ];
@@ -235,39 +235,39 @@ function ExperienceSection() {
     {
       role: "AI Engineering Intern",
       org: "Commonwealth of Massachusetts",
-      year: "Jan 2026 — Present",
+      year: "Jan 2026 - Present",
       desc: "Selected for a 16-week program building generative AI for public-sector use. Designing systems with UMass CICS faculty and state partners using human-centered design and responsible AI on AWS."
     },
     {
       role: "Emerging Leaders Scholar (Engineering)",
       org: "Goldman Sachs",
-      year: "Jan 2026 — Present",
-      desc: "Engineering Track scholar — technical training, mentorship, and an in-person presentation of an engineering solution at the Goldman Sachs Dallas office.",
+      year: "Jan 2026 - Present",
+      desc: "Engineering Track scholar with technical training, mentorship, and an in-person presentation of an engineering solution at the Goldman Sachs Dallas office.",
       image: "/goldman.png"
     },
     {
       role: "Innovation Challenge Finalist",
       org: "Accenture",
-      year: "Feb 2026 — Mar 2026",
+      year: "Feb 2026 - Mar 2026",
       desc: "Selected from over 1,500 applicants. Analyzed a partner organization's challenges and presented strategy recommendations to senior Accenture leadership for community-impact work.",
       image: "/accenture.png"
     },
     {
       role: "AI Studio Fellow",
       org: "Snowflake",
-      year: "Aug 2025 — Dec 2025",
-      desc: "Built an interactive geospatial ML app predicting healthcare deserts — combined demographic, transport, and facility data with classification models and GenAI summaries to recommend clinic locations."
+      year: "Aug 2025 - Dec 2025",
+      desc: "Built an interactive geospatial ML app predicting healthcare deserts by combining demographic, transport, and facility data with classification models and GenAI summaries to recommend clinic locations."
     },
     {
       role: "Undergraduate Researcher",
       org: "Lab for Advanced System Software",
-      year: "Mar 2025 — Present",
+      year: "Mar 2025 - Present",
       desc: "Studying how energy mix and geography shape grid carbon intensity, and how that informs carbon-aware placement of cloud workloads across regions."
     },
     {
       role: "Student Ambassador",
       org: "UMass IT",
-      year: "Sept 2025 — Present",
+      year: "Sept 2025 - Present",
       desc: "Evaluating IT tools and services and feeding accessibility, UX, and service-design feedback to cross-functional teams."
     }
   ];
@@ -361,7 +361,7 @@ function WritingSection() {
             Essays, thoughts, <br/> and things I had to get out of my head.
           </motion.h2>
           <motion.p custom={2} variants={fadeUp} className="font-sans font-light text-white/60 leading-relaxed">
-            I publish on Medium — short essays at the intersection of AI, economics, and the messy parts of building real things.
+            I publish on Medium. Short essays at the intersection of AI, economics, and the messy parts of building real things.
           </motion.p>
         </div>
 
@@ -411,7 +411,7 @@ function WritingSection() {
               Want the next one in your inbox?
             </h3>
             <p className="font-sans font-light text-white/65 text-base md:text-lg leading-relaxed mb-7 max-w-md mx-auto">
-              I publish a few essays a month on Medium — quiet, slow writing about technology, research, and the in-between. No spam, no algorithms, just the work.
+              I publish a few essays a month on Medium. Quiet, slow writing about technology, research, and the in-between. No spam, no algorithms, just the work.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
@@ -455,7 +455,7 @@ function ContactSection() {
           You found the bottom. <br/> Let's make something.
         </motion.h2>
         <motion.p custom={2} variants={fadeUp} className="font-sans font-light text-white/70 text-lg mb-10 max-w-lg mx-auto">
-          Whether you want to collaborate, have a project idea, or just want to say something interesting — my inbox is open.
+          Whether you want to collaborate, have a project idea, or just want to say something interesting, my inbox is open.
         </motion.p>
         
         <motion.div custom={3} variants={fadeUp} className="flex flex-wrap justify-center gap-4">
