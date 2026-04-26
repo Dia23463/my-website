@@ -18,9 +18,15 @@ export function Navbar() {
       <div className="liquid-glass rounded-full h-14 flex items-center justify-between px-6">
         <button
           onClick={() => scrollTo("hero")}
-          className="font-instrument italic text-xl text-white/90 hover:text-white transition-colors"
+          className="flex items-center gap-3 group"
+          aria-label="Dia Sutaria — back to top"
         >
-          Dia Sutaria
+          <span className="liquid-glass-strong rounded-full w-9 h-9 flex items-center justify-center font-instrument italic text-[0.95rem] text-white tracking-tight group-hover:bg-white/10 transition-colors">
+            DS
+          </span>
+          <span className="hidden sm:inline font-instrument italic text-lg text-white/90 group-hover:text-white transition-colors">
+            Dia Sutaria
+          </span>
         </button>
 
         <div className="hidden md:flex items-center gap-8">

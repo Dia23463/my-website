@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { ArrowDown, BookOpen, ArrowUpRight, Mail, Github, Linkedin } from "lucide-react";
+import { ArrowDown, BookOpen, ArrowUpRight, Mail, Github, Linkedin, BookMarked } from "lucide-react";
 import { useRef } from "react";
 import { PageLoader } from "./components/PageLoader";
 import { Navbar } from "./components/Navbar";
@@ -7,6 +7,8 @@ import { SwayCanvas } from "./components/canvas/SwayCanvas";
 import { AtmosphereCanvas } from "./components/canvas/AtmosphereCanvas";
 import { ParticleCanvas } from "./components/canvas/ParticleCanvas";
 import { ParticleTitle } from "./components/canvas/ParticleTitle";
+
+const MEDIUM_URL = "https://medium.com/@dia_010622";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -305,17 +307,17 @@ function WritingSection() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   const essays = [
-    { title: "Notes from the Commonwealth", date: "Coming soon", excerpt: "What I'm learning about building generative AI inside a public-sector team that has to actually live with the consequences." },
-    { title: "On carbon-aware computing", date: "Coming soon", excerpt: "Why where and when you run a workload is starting to matter as much as how fast it runs." },
-    { title: "Designing for the underserved", date: "Coming soon", excerpt: "Lessons from Access Prep on bilingual UX, OCR pipelines, and trust." },
-    { title: "Econ majors who code", date: "Coming soon", excerpt: "On the strange usefulness of reading too much macroeconomics while learning to ship software." }
+    { title: "Notes from the Commonwealth", date: "On Medium", excerpt: "What I'm learning about building generative AI inside a public-sector team that has to actually live with the consequences." },
+    { title: "On carbon-aware computing", date: "On Medium", excerpt: "Why where and when you run a workload is starting to matter as much as how fast it runs." },
+    { title: "Designing for the underserved", date: "On Medium", excerpt: "Lessons from Access Prep on bilingual UX, OCR pipelines, and trust." },
+    { title: "Econ majors who code", date: "On Medium", excerpt: "On the strange usefulness of reading too much macroeconomics while learning to ship software." }
   ];
 
   return (
     <section id="writing" className="bg-black pt-28 pb-36 px-6 relative overflow-hidden">
       <AtmosphereCanvas />
-      
-      <motion.div 
+
+      <motion.div
         ref={ref}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
@@ -327,27 +329,75 @@ function WritingSection() {
             Essays, thoughts, <br/> and things I had to get out of my head.
           </motion.h2>
           <motion.p custom={2} variants={fadeUp} className="font-sans font-light text-white/60 leading-relaxed">
-            I write about technology, creativity, and the weird overlap between the two. Sometimes I write about nothing in particular.
+            I publish on Medium — short essays at the intersection of AI, economics, and the messy parts of building real things.
           </motion.p>
         </div>
 
-        <div className="space-y-4 max-w-2xl mx-auto">
+        <div className="space-y-4 max-w-2xl mx-auto mb-12">
           {essays.map((essay, i) => (
-            <motion.a 
-              key={i} 
-              href="#"
-              custom={3 + i} 
+            <motion.a
+              key={i}
+              href={MEDIUM_URL}
+              target="_blank"
+              rel="noreferrer"
+              custom={3 + i}
               variants={fadeUp}
-              className="block liquid-glass rounded-xl p-5 md:p-6 transition-all hover:bg-white/[0.08] group"
+              className="block liquid-glass rounded-xl p-5 md:p-6 transition-all hover:bg-white/[0.08] hover:-translate-y-0.5 group"
             >
-              <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-2">
+              <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-2 gap-1">
                 <h3 className="font-instrument italic text-2xl text-white group-hover:text-white/90">{essay.title}</h3>
-                <span className="font-sans text-xs text-white/40 mt-1 md:mt-0">{essay.date}</span>
+                <span className="font-sans text-xs text-white/40 uppercase tracking-wider">{essay.date}</span>
               </div>
-              <p className="font-sans font-light text-white/60 text-sm">{essay.excerpt}</p>
+              <p className="font-sans font-light text-white/60 text-sm leading-relaxed">{essay.excerpt}</p>
+              <div className="mt-3 inline-flex items-center font-sans font-medium text-xs text-white/45 group-hover:text-white transition-colors">
+                Read on Medium <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
+              </div>
             </motion.a>
           ))}
         </div>
+
+        <motion.div
+          custom={7}
+          variants={fadeUp}
+          className="liquid-glass-strong rounded-3xl p-8 md:p-10 max-w-2xl mx-auto text-center relative overflow-hidden"
+        >
+          <div
+            className="absolute inset-0 opacity-30 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse at top, rgba(255,210,140,0.18), transparent 60%)",
+            }}
+          />
+          <div className="relative z-10">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/8 border border-white/15 mb-5">
+              <BookMarked className="w-5 h-5 text-white/85" />
+            </div>
+            <h3 className="font-instrument italic text-3xl md:text-4xl text-white leading-tight mb-3">
+              Want the next one in your inbox?
+            </h3>
+            <p className="font-sans font-light text-white/65 text-base md:text-lg leading-relaxed mb-7 max-w-md mx-auto">
+              I publish a few essays a month on Medium — quiet, slow writing about technology, research, and the in-between. No spam, no algorithms, just the work.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <a
+                href={MEDIUM_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="liquid-glass-strong rounded-full px-7 py-3.5 font-sans font-medium text-white flex items-center gap-2.5 hover:bg-white/12 transition-colors"
+              >
+                Follow on Medium <ArrowUpRight className="w-4 h-4" />
+              </a>
+              <a
+                href={MEDIUM_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="font-sans font-medium text-sm text-white/55 hover:text-white transition-colors px-3"
+              >
+                Browse the archive →
+              </a>
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
     </section>
   );
@@ -383,6 +433,9 @@ function ContactSection() {
           <a href="https://www.linkedin.com/in/dia-sutaria/" target="_blank" rel="noreferrer" className="liquid-glass rounded-full px-8 py-4 font-sans font-medium text-white flex items-center gap-3 hover:bg-white/10 transition-colors">
             <Linkedin className="w-5 h-5" /> LinkedIn
           </a>
+          <a href={MEDIUM_URL} target="_blank" rel="noreferrer" className="liquid-glass rounded-full px-8 py-4 font-sans font-medium text-white flex items-center gap-3 hover:bg-white/10 transition-colors">
+            <BookMarked className="w-5 h-5" /> Medium
+          </a>
         </motion.div>
       </motion.div>
     </section>
@@ -396,8 +449,13 @@ function Footer() {
         <div className="h-px w-full bg-white/10 mb-8" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4">
-            <span className="font-instrument italic text-xl text-white/90">Dia Sutaria</span>
-            <span className="font-sans text-xs text-white/35">CS + Economics · UMass Amherst</span>
+            <span className="liquid-glass rounded-full w-9 h-9 flex items-center justify-center font-instrument italic text-[0.95rem] text-white">
+              DS
+            </span>
+            <div className="flex flex-col">
+              <span className="font-instrument italic text-lg text-white/90 leading-tight">Dia Sutaria</span>
+              <span className="font-sans text-xs text-white/35">CS + Economics · UMass Amherst</span>
+            </div>
           </div>
           <div className="font-sans text-xs text-white/30 text-center md:text-right">
             © 2026. Built with too much coffee and not enough sleep.
