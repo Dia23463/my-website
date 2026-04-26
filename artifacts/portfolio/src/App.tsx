@@ -62,7 +62,7 @@ function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 1 }}
-          className="mt-6 text-white/72 font-sans font-light text-lg md:text-xl max-w-2xl mx-auto"
+          className="mt-6 text-white/90 font-sans font-medium text-lg md:text-xl max-w-2xl mx-auto"
         >
           CS + Economics at UMass Amherst · AI engineer, researcher, and quiet builder of things that try to make the world a little less broken.
         </motion.p>

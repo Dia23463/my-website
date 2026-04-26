@@ -27,8 +27,8 @@ export function ParticleTitle() {
       const octx = offscreen.getContext('2d');
       if (!octx) return;
 
-      const fontSize = Math.min(width * 0.086, 90);
-      octx.font = `italic ${fontSize}px "Instrument Serif"`;
+      const fontSize = Math.min(width * 0.092, 96);
+      octx.font = `italic 600 ${fontSize}px "Instrument Serif"`;
       octx.fillStyle = 'white';
       octx.textAlign = 'center';
       octx.textBaseline = 'middle';
@@ -40,8 +40,8 @@ export function ParticleTitle() {
       const data = imageData.data;
 
       particles = [];
-      for (let y = 0; y < height; y += 3) {
-        for (let x = 0; x < width; x += 3) {
+      for (let y = 0; y < height; y += 2) {
+        for (let x = 0; x < width; x += 2) {
           const index = (y * width + x) * 4;
           const alpha = data[index + 3];
           if (alpha > 100) {
@@ -52,7 +52,7 @@ export function ParticleTitle() {
               baseY: y,
               vx: 0,
               vy: 0,
-              size: Math.random() * 1.5 + 0.5
+              size: Math.random() * 1.6 + 0.9
             });
           }
         }
@@ -63,7 +63,7 @@ export function ParticleTitle() {
 
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
 
       for (let i = 0; i < particles.length; i++) {
         let p = particles[i];
