@@ -296,25 +296,30 @@ function ExperienceSection() {
           </motion.h2>
         </div>
 
-        <div className="relative border-l border-white/10 ml-4 md:ml-[50%]">
+        <div className="relative max-w-2xl mx-auto">
+          <div className="absolute left-[11px] top-2 bottom-2 w-px bg-gradient-to-b from-white/0 via-white/15 to-white/0" />
+
           {experiences.map((exp, i) => (
-            <motion.div 
-              key={i} 
-              custom={2 + i} 
+            <motion.div
+              key={i}
+              custom={2 + i}
               variants={fadeUp}
-              className={`relative pl-8 md:pl-0 mb-12 flex ${i % 2 === 0 ? 'md:justify-end' : 'md:justify-start md:-ml-[50%]'}`}
+              className="relative pl-10 mb-10 last:mb-0"
             >
-              <div className="absolute left-[-5px] top-4 md:left-[calc(50%-4px)] md:top-6 w-2 h-2 rounded-full bg-white/40 border-2 border-black" />
-              <div className={`liquid-glass rounded-2xl overflow-hidden md:w-[calc(50%-2rem)] ${i % 2 === 0 ? 'md:ml-8' : 'md:mr-8'}`}>
+              <div className="absolute left-[7px] top-7 w-[10px] h-[10px] rounded-full bg-white/70 ring-4 ring-black" />
+
+              <div className="liquid-glass rounded-2xl overflow-hidden">
                 {exp.image && (
-                  <div className="relative w-full aspect-[16/9] overflow-hidden border-b border-white/10 bg-black">
+                  <div className="relative w-full aspect-[16/7] overflow-hidden border-b border-white/10 bg-black">
                     <img src={exp.image} alt={exp.org} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                   </div>
                 )}
                 <div className="p-6">
-                  <div className="font-sans font-medium text-xs text-white/40 mb-2">{exp.year}</div>
-                  <h3 className="font-instrument italic text-2xl text-white mb-1">{exp.role}</h3>
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-2">
+                    <h3 className="font-instrument italic text-2xl text-white leading-tight">{exp.role}</h3>
+                    <div className="font-sans font-medium text-xs text-white/40 uppercase tracking-wider whitespace-nowrap">{exp.year}</div>
+                  </div>
                   <div className="font-sans font-medium text-sm text-white/60 mb-3">{exp.org}</div>
                   <p className="font-sans font-light text-white/70 text-sm leading-relaxed">{exp.desc}</p>
                 </div>
