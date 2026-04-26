@@ -1,0 +1,26 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "2o3_Rjj2S-F4IsKY_Iwo-"
+uri = "file://artifacts/portfolio/public/hero-bg.png"
+type = "image"
+title = "wide landscape golden hour flowers"
+
+[[generated]]
+id = "IppkTqBBCpmQJDrU5FLyC"
+uri = "file://artifacts/portfolio/public/intro-bg.png"
+type = "image"
+title = "abstract moody nature texture"
+
+[[generated]]
+id = "RxNctZmjGxXVLENLT2I6t"
+uri = "file://artifacts/portfolio/public/projects-bg.png"
+type = "image"
+title = "moody atmospheric dark cinematic scene"
+
+[[generated]]
+id = "Fvr0uDhjcQuKgv0q8JH0-"
+uri = "file://artifacts/portfolio/public/features-bg.png"
+type = "image"
+title = "dark abstract texture cinematic"
