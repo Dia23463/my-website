@@ -1,54 +1,21 @@
 import { useEffect, useRef } from "react";
 
-const vertexShaderSource = `
-  attribute vec2 position;
-  varying vec2 vUv;
-  void main() {
-    vUv = position * 0.5 + 0.5;
-    vUv.y = 1.0 - vUv.y;
-    gl_Position = vec4(position, 0.0, 1.0);
-  }
-`;
+type Node = {
+  baseX: number;
+  baseY: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+};
 
-const fragmentShaderSource = `
-  precision highp float;
-  uniform sampler2D uImage;
-  uniform float uTime;
-  uniform vec2 uResolution;
-  varying vec2 vUv;
-
-  void main() {
-    vec2 uv = vUv;
-    
-    // Sway effect in lower 62%
-    if (uv.y > 0.38) {
-      float depth = (uv.y - 0.38) / 0.62; // 0 at top of grass, 1 at bottom
-      
-      // Cluster phase
-      float clusterPhase = uv.x * 8.0 + sin(uv.x * 3.5) * 2.0 + uv.y * 2.0;
-      
-      // Wind gusts
-      float wind = sin(uTime * 0.6 + clusterPhase) * 0.5 + 
-                   sin(uTime * 1.7 + clusterPhase) * 0.3 + 
-                   sin(uTime * 0.9 + clusterPhase) * 0.2;
-                   
-      float sway = wind * depth * 0.03; // Amplitude scales with depth
-      uv.x += sway;
-    } else {
-      // Sky drift and zoom
-      vec2 center = vec2(0.5, 0.2);
-      vec2 dir = uv - center;
-      uv = center + dir * (1.0 - 0.05 * sin(uTime * 0.1));
-      uv.x += sin(uTime * 0.05) * 0.02;
-    }
-    
-    // Clamp to avoid edge wrapping
-    uv = clamp(uv, 0.0, 1.0);
-    
-    vec4 color = texture2D(uImage, uv);
-    gl_FragColor = color;
-  }
-`;
+type Pulse = {
+  fromIdx: number;
+  toIdx: number;
+  progress: number;
+  speed: number;
+};
 
 export function SwayCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -56,104 +23,214 @@ export function SwayCanvas() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const gl = canvas.getContext("webgl");
-    if (!gl) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    // Compile shaders
-    const compileShader = (source: string, type: number) => {
-      const shader = gl.createShader(type);
-      if (!shader) return null;
-      gl.shaderSource(shader, source);
-      gl.compileShader(shader);
-      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error(gl.getShaderInfoLog(shader));
-        gl.deleteShader(shader);
-        return null;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let nodes: Node[] = [];
+    const pulses: Pulse[] = [];
+
+    const seedNodes = () => {
+      const targetCount = Math.max(60, Math.min(120, Math.floor((width * height) / 14000)));
+      nodes = [];
+      for (let i = 0; i < targetCount; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        nodes.push({
+          baseX: x,
+          baseY: y,
+          x,
+          y,
+          vx: (Math.random() - 0.5) * 0.16,
+          vy: (Math.random() - 0.5) * 0.14,
+          size: 0.6 + Math.random() * 1.5,
+        });
       }
-      return shader;
     };
 
-    const vertexShader = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
-    const fragmentShader = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
-    if (!vertexShader || !fragmentShader) return;
+    const setSize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seedNodes();
+    };
+    setSize();
+    window.addEventListener("resize", setSize);
 
-    // Create program
-    const program = gl.createProgram();
-    if (!program) return;
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error(gl.getProgramInfoLog(program));
-      return;
-    }
-    gl.useProgram(program);
+    let mx = width / 2;
+    let my = height / 2;
+    const onMouseMove = (e: MouseEvent) => {
+      mx = e.clientX;
+      my = e.clientY;
+    };
+    window.addEventListener("mousemove", onMouseMove);
 
-    // Quad geometry
-    const vertices = new Float32Array([
-      -1, -1,
-       1, -1,
-      -1,  1,
-      -1,  1,
-       1, -1,
-       1,  1
-    ]);
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-    const positionLoc = gl.getAttribLocation(program, "position");
-    gl.enableVertexAttribArray(positionLoc);
-    gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
-
-    // Uniforms
-    const uTimeLoc = gl.getUniformLocation(program, "uTime");
-    const uResolutionLoc = gl.getUniformLocation(program, "uResolution");
-    const uImageLoc = gl.getUniformLocation(program, "uImage");
-
-    // Load texture
-    const texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-    const image = new Image();
-    image.src = "/hero-bg.png";
-    image.onload = () => {
-      gl.bindTexture(gl.TEXTURE_2D, texture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    const spawnPulse = () => {
+      if (nodes.length < 2) return;
+      const fromIdx = Math.floor(Math.random() * nodes.length);
+      let bestIdx = -1;
+      let bestD2 = Infinity;
+      for (let j = 0; j < nodes.length; j++) {
+        if (j === fromIdx) continue;
+        const dx = nodes[j].x - nodes[fromIdx].x;
+        const dy = nodes[j].y - nodes[fromIdx].y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < 26000 && d2 < bestD2 && Math.random() < 0.6) {
+          bestD2 = d2;
+          bestIdx = j;
+        }
+      }
+      if (bestIdx === -1) return;
+      pulses.push({
+        fromIdx,
+        toIdx: bestIdx,
+        progress: 0,
+        speed: 0.006 + Math.random() * 0.012,
+      });
     };
 
-    // Render loop
-    let startTime = performance.now();
-    let animationFrameId: number;
+    const CONNECT_DIST = 140;
+    let raf = 0;
+    let last = performance.now();
+    let pulseTimer = 0;
 
-    const render = (time: number) => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      gl.viewport(0, 0, canvas.width, canvas.height);
+    const render = (now: number) => {
+      const dt = Math.min(64, now - last);
+      last = now;
 
-      gl.uniform1f(uTimeLoc, (time - startTime) * 0.001);
-      gl.uniform2f(uResolutionLoc, canvas.width, canvas.height);
-      gl.uniform1i(uImageLoc, 0);
+      // Base black wash
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, width, height);
 
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
-      animationFrameId = requestAnimationFrame(render);
+      // Soft warm aurora to keep continuity with the rest of the page
+      const aurora = ctx.createRadialGradient(
+        width * 0.5,
+        height * 0.42,
+        0,
+        width * 0.5,
+        height * 0.42,
+        Math.max(width, height) * 0.75
+      );
+      aurora.addColorStop(0, "rgba(120, 90, 60, 0.16)");
+      aurora.addColorStop(0.45, "rgba(60, 50, 90, 0.08)");
+      aurora.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = aurora;
+      ctx.fillRect(0, 0, width, height);
+
+      // Drift + parallax
+      const parX = (mx / width - 0.5) * 16;
+      const parY = (my / height - 0.5) * 16;
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        n.baseX += n.vx * (dt / 16);
+        n.baseY += n.vy * (dt / 16);
+        if (n.baseX < -20) n.baseX = width + 20;
+        if (n.baseX > width + 20) n.baseX = -20;
+        if (n.baseY < -20) n.baseY = height + 20;
+        if (n.baseY > height + 20) n.baseY = -20;
+        n.x = n.baseX + parX;
+        n.y = n.baseY + parY;
+      }
+
+      // Connection lines (graph edges)
+      ctx.lineWidth = 0.6;
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < CONNECT_DIST * CONNECT_DIST) {
+            const d = Math.sqrt(d2);
+            const alpha = (1 - d / CONNECT_DIST) * 0.18;
+            ctx.strokeStyle = `rgba(232, 223, 208, ${alpha})`;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Nodes with soft glow
+      ctx.globalCompositeOperation = "lighter";
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        const r = n.size;
+        const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 9);
+        glow.addColorStop(0, "rgba(255, 226, 180, 0.55)");
+        glow.addColorStop(0.4, "rgba(255, 200, 150, 0.10)");
+        glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r * 9, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "rgba(255, 240, 220, 0.95)";
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalCompositeOperation = "source-over";
+
+      // Data pulses travelling along edges
+      pulseTimer += dt;
+      if (pulseTimer > 240 && pulses.length < 16) {
+        spawnPulse();
+        pulseTimer = 0;
+      }
+
+      ctx.globalCompositeOperation = "lighter";
+      for (let i = pulses.length - 1; i >= 0; i--) {
+        const p = pulses[i];
+        p.progress += p.speed * (dt / 16);
+        if (p.progress >= 1) {
+          pulses.splice(i, 1);
+          continue;
+        }
+        const a = nodes[p.fromIdx];
+        const b = nodes[p.toIdx];
+        if (!a || !b) {
+          pulses.splice(i, 1);
+          continue;
+        }
+        const px = a.x + (b.x - a.x) * p.progress;
+        const py = a.y + (b.y - a.y) * p.progress;
+
+        // Bright travelling pulse with comet trail
+        const pg = ctx.createRadialGradient(px, py, 0, px, py, 16);
+        pg.addColorStop(0, "rgba(255, 245, 215, 0.95)");
+        pg.addColorStop(0.4, "rgba(255, 205, 140, 0.35)");
+        pg.addColorStop(1, "rgba(0, 0, 0, 0)");
+        ctx.fillStyle = pg;
+        ctx.beginPath();
+        ctx.arc(px, py, 16, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalCompositeOperation = "source-over";
+
+      raf = requestAnimationFrame(render);
     };
-
-    render(startTime);
+    raf = requestAnimationFrame(render);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", setSize);
+      window.removeEventListener("mousemove", onMouseMove);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full hero-glow object-cover"
+      className="absolute inset-0 w-full h-full hero-glow"
       style={{ zIndex: 0 }}
     />
   );
