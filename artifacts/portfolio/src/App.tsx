@@ -133,7 +133,7 @@ function AboutSection() {
             As someone who is an avid reader, the world in and out of books has always been a curious place to be. From having an adrenaline rush thinking about the black hole and the mystery around the event horizon to figuring out how a quantum computer works, what wakes me up from bed is the possibility of coming across something new and exciting.
           </p>
           <p>
-            With a belief in learning by doing and exploring the world in all it's shades, I embrace things in all it's vibrancy and... that's what works out best!
+            With a belief in learning by doing and exploring the world in all its shades, I embrace things in all its vibrancy and... that's what works out best!
           </p>
         </motion.div>
       </motion.div>
