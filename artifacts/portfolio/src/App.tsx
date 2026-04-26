@@ -145,7 +145,7 @@ function ProjectsSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
-  const projects = [
+  const projects: Array<{ title: string; desc: string; href: string; image?: string }> = [
     {
       title: "Access Prep",
       desc: "AI-powered financial document assistant for underserved users — React + TypeScript front end, Flask + LangChain backend, Gemini chatbot, OCR verification, bilingual support. Selected for the Capital One 2026 Tech Summit (3rd place).",
@@ -154,7 +154,8 @@ function ProjectsSection() {
     {
       title: "RecessionIQ",
       desc: "Real-time macro dashboard in Next.js pulling Federal Reserve data across CPI, unemployment, and the yield curve. Built a weighted recession-risk model grounded in historical data, deployed on Vercel.",
-      href: "https://github.com/Dia23463"
+      href: "https://github.com/Dia23463",
+      image: "/recessioniq.png"
     },
     {
       title: "Healthcare Deserts",
@@ -195,14 +196,26 @@ function ProjectsSection() {
               rel="noreferrer"
               custom={2 + i}
               variants={fadeUp}
-              className="liquid-glass rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-white/30 group cursor-pointer flex flex-col justify-between min-h-[220px]"
+              className="liquid-glass rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-white/30 group cursor-pointer flex flex-col min-h-[220px]"
             >
-              <div>
-                <h3 className="font-instrument italic text-3xl text-white mb-3">{p.title}</h3>
-                <p className="font-sans font-light text-white/65 leading-relaxed">{p.desc}</p>
-              </div>
-              <div className="mt-6 flex items-center font-sans font-medium text-sm text-white/50 group-hover:text-white transition-colors">
-                View Project <ArrowUpRight className="w-4 h-4 ml-1" />
+              {p.image && (
+                <div className="relative w-full aspect-[16/9] overflow-hidden border-b border-white/10 bg-black">
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                </div>
+              )}
+              <div className="p-7 flex flex-col justify-between flex-1">
+                <div>
+                  <h3 className="font-instrument italic text-3xl text-white mb-3">{p.title}</h3>
+                  <p className="font-sans font-light text-white/65 leading-relaxed">{p.desc}</p>
+                </div>
+                <div className="mt-6 flex items-center font-sans font-medium text-sm text-white/50 group-hover:text-white transition-colors">
+                  View Project <ArrowUpRight className="w-4 h-4 ml-1" />
+                </div>
               </div>
             </motion.a>
           ))}
@@ -454,8 +467,13 @@ function Footer() {
         <div className="h-px w-full bg-white/10 mb-8" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4">
-            <span className="liquid-glass rounded-full w-9 h-9 flex items-center justify-center font-instrument italic text-[0.95rem] text-white">
-              DS
+            <span className="liquid-glass rounded-full w-10 h-10 flex items-center justify-center overflow-hidden">
+              <img
+                src="/ds-logo.png"
+                alt="DS"
+                className="w-6 h-6 object-contain"
+                style={{ filter: "invert(1) brightness(1.6)" }}
+              />
             </span>
             <div className="flex flex-col">
               <span className="font-instrument italic text-lg text-white/90 leading-tight">Dia Sutaria</span>

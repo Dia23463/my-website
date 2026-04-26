@@ -21,8 +21,13 @@ export function Navbar() {
           className="flex items-center gap-3 group"
           aria-label="Dia Sutaria — back to top"
         >
-          <span className="liquid-glass-strong rounded-full w-9 h-9 flex items-center justify-center font-instrument italic text-[0.95rem] text-white tracking-tight group-hover:bg-white/10 transition-colors">
-            DS
+          <span className="liquid-glass-strong rounded-full w-10 h-10 flex items-center justify-center group-hover:bg-white/10 transition-colors overflow-hidden">
+            <img
+              src="/ds-logo.png"
+              alt="DS"
+              className="w-6 h-6 object-contain"
+              style={{ filter: "invert(1) brightness(1.6)" }}
+            />
           </span>
           <span className="hidden sm:inline font-instrument italic text-lg text-white/90 group-hover:text-white transition-colors">
             Dia Sutaria
